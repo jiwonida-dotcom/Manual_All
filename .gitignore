@@ -1,9 +1,6 @@
 # 대용량 원본 (배포 대상 아님)
 Pretendard-*.zip
 
-# 이전 구조 잔여 폴더 (루트 index.html + font/ 로 대체됨)
-/docs/
-
 # 임시 파일
 ~$*
 *.tmp

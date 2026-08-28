@@ -64,9 +64,9 @@ html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important}}
 body{
   margin:0; background:var(--ground); color:var(--ink-700); font-family:var(--ff);
-  font-size:15px; line-height:1.7; letter-spacing:-.005em; -webkit-font-smoothing:antialiased;
+  font-size:15px; line-height:1.8; letter-spacing:-.005em; -webkit-font-smoothing:antialiased;
 }
-h1,h2{margin:0} p{margin:0}
+h1,h2,h3{margin:0} p{margin:0}
 b{font-weight:600; color:var(--ink-900)}
 .t-display{font-size:clamp(25px,3.6vw,34px); font-weight:800; line-height:1.24; letter-spacing:-.032em; color:var(--ink-900)}
 .t-sec{font-size:clamp(19px,2.4vw,24px); font-weight:700; line-height:1.34; letter-spacing:-.026em; color:var(--ink-900)}
@@ -74,10 +74,9 @@ b{font-weight:600; color:var(--ink-900)}
 
 /* ============================ SHELL ============================ */
 .shell{max-width:1240px; margin:0 auto; padding:22px 22px 80px; display:grid; grid-template-columns:250px minmax(0,1fr); gap:22px; align-items:start}
+.side{position:sticky; top:22px; background:var(--surface); border-radius:var(--r-xl); box-shadow:var(--sh-2); padding:14px 14px 20px; display:flex; flex-direction:column; gap:24px; max-height:calc(100vh - 44px); overflow-y:auto}
 
-.side{position:sticky; top:22px; background:var(--surface); border-radius:var(--r-xl); box-shadow:var(--sh-2); padding:14px 14px 20px; display:flex; flex-direction:column; gap:18px; max-height:calc(100vh - 44px); overflow-y:auto}
-
-/* --- brand panel --- */
+/* --- brand --- */
 .brand{background:var(--brand-bg); box-shadow:var(--brand-sh); border-radius:var(--r-l); padding:18px 16px 16px; display:flex; flex-direction:column; gap:14px; position:relative; overflow:hidden}
 .brand::after{content:""; position:absolute; right:-40px; top:-40px; width:118px; height:118px; border-radius:50%; background:rgba(255,255,255,.09)}
 .brand .mk{width:38px; height:38px; border-radius:11px; background:var(--brand-fill); display:grid; place-items:center; flex:none; position:relative; z-index:1; color:var(--brand-ink)}
@@ -88,77 +87,94 @@ b{font-weight:600; color:var(--ink-900)}
 .brand .ver{font-style:normal; letter-spacing:.04em; background:var(--brand-fill); color:var(--brand-ink); padding:2px 7px; border-radius:5px; font-variant-numeric:tabular-nums}
 
 /* --- nav --- */
-.navwrap{display:flex; flex-direction:column; gap:4px}
-.navgrp{display:flex; flex-direction:column; gap:3px; padding:13px 0 3px; border-top:1px solid var(--rule)}
-.navgrp:first-child{border-top:none; padding-top:0}
-.gh{display:flex; align-items:center; gap:9px; padding:6px; border-radius:9px; border:none; background:none; cursor:pointer; width:100%; text-align:left; transition:background .15s}
+.navwrap{display:flex; flex-direction:column; gap:8px}
+.navgrp{display:flex; flex-direction:column; gap:4px; padding:18px 0 6px; border-top:1px solid var(--rule)}
+.navgrp:first-child{border-top:none; padding-top:4px}
+.gh{display:flex; align-items:center; gap:9px; padding:8px 6px; border-radius:9px; border:none; background:none; cursor:pointer; width:100%; text-align:left; transition:background .15s}
 .gh:hover{background:var(--surface-2)}
 .gh:focus-visible{outline:2px solid var(--indigo); outline-offset:2px}
 .gh .bar{width:3px; height:15px; border-radius:2px; background:var(--rule-2); flex:none; transition:background .15s}
-.gh .gt{font-size:12.5px; font-weight:800; letter-spacing:-.018em; color:var(--ink-500); line-height:1.3; transition:color .15s}
+.gh .gt{font-size:12.5px; font-weight:800; letter-spacing:-.018em; color:var(--ink-500); line-height:1.45; transition:color .15s}
 .gh .gc{margin-left:auto; font-size:9.5px; font-weight:700; letter-spacing:.06em; color:var(--ink-400); background:var(--surface-2); padding:2px 6px; border-radius:5px; font-variant-numeric:tabular-nums; flex:none}
 .navgrp.act .gh .bar{background:var(--indigo)}
 .navgrp.act .gh .gt{color:var(--ink-900)}
 .navgrp.act .gh .gc{background:var(--indigo-100); color:var(--indigo)}
-.navlist{display:flex; flex-direction:column; gap:3px; padding-top:4px}
+.navlist{display:flex; flex-direction:column; gap:4px; padding-top:8px}
 .navgrp:not(.act) .navlist{display:none}
-.nav{display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:10px; font-size:13.5px; font-weight:500; letter-spacing:-.016em; color:var(--ink-500); border:none; background:none; cursor:pointer; text-align:left; width:100%; transition:background .15s,color .15s}
+.nav{display:flex; align-items:center; gap:10px; padding:10px 10px; border-radius:10px; font-size:13.5px; font-weight:500; letter-spacing:-.016em; color:var(--ink-500); border:none; background:none; cursor:pointer; text-align:left; width:100%; transition:background .15s,color .15s}
 .nav em{font-style:normal; font-size:10.5px; font-weight:800; letter-spacing:.04em; color:var(--ink-300); width:17px; flex:none; font-variant-numeric:tabular-nums}
 .nav:hover{background:var(--surface-2); color:var(--ink-700)}
-.nav.on{background:var(--indigo); color:var(--on-indigo); font-weight:700; box-shadow:var(--sh-indigo)}
-.nav.on em{color:var(--on-indigo); opacity:.62}
+.nav.on{background:var(--indigo-100); color:var(--indigo); font-weight:600}
+.nav.on em{color:var(--indigo); opacity:.85}
 .nav:focus-visible{outline:2px solid var(--indigo); outline-offset:2px}
 
 /* --- main --- */
-.main{display:flex; flex-direction:column; gap:20px; min-width:0}
-.topbar{position:sticky; top:22px; z-index:20; background:var(--surface); border-radius:var(--r-l); box-shadow:var(--sh-2); padding:12px 18px; display:flex; align-items:center; gap:14px}
-.topbar .now{display:flex; align-items:baseline; gap:9px; min-width:0}
-.topbar .now em{font-style:normal; font-size:10.5px; font-weight:800; letter-spacing:.09em; color:var(--indigo); font-variant-numeric:tabular-nums; flex:none}
-.topbar .now span{font-size:13.5px; font-weight:600; letter-spacing:-.018em; color:var(--ink-900); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-.prog{flex:1; height:4px; border-radius:99px; background:var(--surface-3); overflow:hidden; min-width:40px}
-.prog i{display:block; height:100%; width:0%; background:var(--indigo); border-radius:99px; transition:width .18s}
-.topbar .pct{font-size:11px; font-weight:600; color:var(--ink-400); font-variant-numeric:tabular-nums; width:34px; text-align:right; flex:none}
-
+.main{display:flex; flex-direction:column; gap:26px; min-width:0}
 .hero{background:var(--surface); border-radius:var(--r-xl); box-shadow:var(--sh-2); padding:32px 30px 28px}
-.page{display:flex; flex-direction:column; gap:20px}
+.page{display:flex; flex-direction:column; gap:26px}
 .page[hidden]{display:none}
-
-section{scroll-margin-top:96px; display:flex; flex-direction:column; gap:11px}
+section{scroll-margin-top:26px; display:flex; flex-direction:column; gap:15px}
 .sechead{display:flex; align-items:center; gap:12px; padding:0 4px}
 .sechead .num{flex:none; width:30px; height:30px; border-radius:9px; background:var(--indigo-100); color:var(--indigo); display:grid; place-items:center; font-size:11.5px; font-weight:800; font-variant-numeric:tabular-nums}
-p.note{font-size:12.5px; color:var(--ink-500); line-height:1.66; padding:0 4px; margin-top:-4px}
+p.note{font-size:12.5px; color:var(--ink-500); line-height:1.75; padding:0 4px; margin-top:-5px}
 p.note b{color:var(--ink-700)}
+
+/* ============================ TIMELINE ============================ */
+.tl{list-style:none; margin:2px 0 0; padding:0; display:flex; flex-direction:column}
+.tl-i{display:grid; grid-template-columns:42px minmax(0,1fr); gap:0 18px; position:relative; padding-bottom:18px}
+.tl-i:last-child{padding-bottom:0}
+.tl-i::before{
+  content:""; position:absolute; left:20px; top:44px; bottom:-4px; width:2px;
+  background:linear-gradient(180deg,var(--indigo) 0%,var(--rule-2) 70%,var(--rule-2) 100%);
+  opacity:.32; border-radius:2px;
+}
+.tl-i:last-child::before{display:none}
+.tl-node{
+  width:42px; height:42px; border-radius:14px; background:var(--brand-bg); color:var(--brand-ink);
+  display:grid; place-items:center; font-size:15px; font-weight:800; letter-spacing:-.02em;
+  box-shadow:var(--brand-sh); position:relative; z-index:1; font-variant-numeric:tabular-nums;
+}
+.tl-card{background:var(--surface); border-radius:var(--r-l); box-shadow:var(--sh-2); padding:18px 20px 19px; min-width:0}
+.tl-head{display:flex; flex-wrap:wrap; align-items:center; gap:7px 10px}
+.tl-t{font-size:15.5px; font-weight:700; letter-spacing:-.021em; color:var(--ink-900); line-height:1.5}
+.tl-tags{display:inline-flex; gap:5px; flex-wrap:wrap}
+.tl-sub{display:block; margin-top:9px; font-size:12px; color:var(--ink-500); line-height:1.68}
+.tl-body{margin-top:15px; padding-top:15px; border-top:1px solid var(--rule)}
+.tl-end{display:grid; grid-template-columns:42px minmax(0,1fr); gap:0 18px; align-items:center; margin-top:14px}
+.tl-end .dot{width:42px; display:grid; place-items:center}
+.tl-end .dot i{width:11px; height:11px; border-radius:50%; background:var(--rule-2); box-shadow:0 0 0 4px var(--surface-3)}
+.tl-end .lb{font-size:12.5px; font-weight:600; color:var(--ink-500); letter-spacing:-.012em}
 
 /* ============================ TABLES ============================ */
 .tw{overflow-x:auto; border-radius:var(--r-l); box-shadow:var(--sh-2); background:var(--surface)}
 table{border-collapse:collapse; width:100%; font-size:13.5px; min-width:560px}
-th,td{padding:14px 16px; text-align:left; vertical-align:top; border-bottom:1px solid var(--rule)}
+th,td{padding:16px 16px; text-align:left; vertical-align:top; border-bottom:1px solid var(--rule)}
 thead th{font-size:10.5px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-400); background:var(--surface-2); white-space:nowrap; border-bottom:1px solid var(--rule-2)}
-tbody td{color:var(--ink-700); line-height:1.62}
+tbody td{color:var(--ink-700); line-height:1.72}
 tbody tr:last-child td{border-bottom:none}
 tbody tr.sub td{border-bottom:1px solid var(--rule)}
 td.col{white-space:nowrap; border-right:1px solid var(--rule); background:var(--surface-2); font-weight:600; color:var(--ink-900); letter-spacing:-.014em; vertical-align:middle}
 td.col small{display:block; margin-top:5px; font-size:11px; font-weight:500; color:var(--ink-400); letter-spacing:0}
 td.it{white-space:nowrap; border-right:1px solid var(--rule); font-weight:600; color:var(--ink-900); letter-spacing:-.014em; background:var(--surface-2)}
 td.v{white-space:nowrap}
-td.od{white-space:nowrap; border-right:1px solid var(--rule); background:var(--surface-2); vertical-align:middle; text-align:center; width:56px}
-td.od .sn{display:inline-grid; place-items:center; width:24px; height:24px; border-radius:8px; background:var(--indigo); color:#fff; font-size:11px; font-weight:800; font-variant-numeric:tabular-nums}
-td.ag{border-right:1px solid var(--rule)}
-.np{display:block; font-weight:500; color:var(--ink-900); letter-spacing:-.012em; line-height:1.55}
-.mm{display:block; margin-top:6px; font-size:12px; font-weight:400; color:var(--ink-500); letter-spacing:0; line-height:1.55}
-.tbd{color:var(--ink-400)}
+.np{display:block; font-weight:500; color:var(--ink-900); letter-spacing:-.012em; line-height:1.65}
+.mm{display:block; margin-top:8px; font-size:12px; font-weight:400; color:var(--ink-500); letter-spacing:0; line-height:1.68}
 
 .vchip{display:inline-flex; align-items:center; font-size:12.5px; font-weight:600; letter-spacing:-.01em; padding:3px 9px; border-radius:7px; background:var(--surface-3); color:var(--ink-900); border:1px solid var(--rule-2); white-space:nowrap}
 .vchip.d{background:var(--neg-bg); color:var(--neg); border-color:transparent}
 .vchip.r{background:var(--warn-bg); color:var(--warn); border-color:transparent}
 .vchip.n{background:var(--surface-3); color:var(--ink-500); border-color:transparent}
 .vchip.y{background:var(--pos-bg); color:var(--pos); border-color:transparent}
+.vchip.s{font-size:11px; padding:2px 7px}
 
 @media (max-width:900px){
   .shell{grid-template-columns:1fr; padding:14px 14px 60px; gap:14px}
   .side{position:static; max-height:none}
-  .topbar{top:8px}
   .hero{padding:24px 20px}
+  .tl-i,.tl-end{grid-template-columns:36px minmax(0,1fr); gap:0 14px}
+  .tl-node{width:36px; height:36px; border-radius:12px; font-size:13.5px}
+  .tl-i::before{left:17px; top:38px}
+  .tl-end .dot{width:36px}
 }
 </style>
 
@@ -176,10 +192,11 @@ td.ag{border-right:1px solid var(--rule)}
 
     <div class="navwrap">
       <div class="navgrp act" data-page="pA">
-        <button class="gh"><span class="bar"></span><span class="gt">주간회의 매뉴얼</span><span class="gc">2</span></button>
+        <button class="gh"><span class="bar"></span><span class="gt">주간회의 매뉴얼</span><span class="gc">3</span></button>
         <div class="navlist">
           <button class="nav" data-go="a1"><em>01</em>진행 기준</button>
-          <button class="nav" data-go="a2"><em>02</em>진행 순서</button>
+          <button class="nav" data-go="a2"><em>02</em>회의 1일 전 마감</button>
+          <button class="nav" data-go="a3"><em>03</em>진행 순서</button>
         </div>
       </div>
       <div class="navgrp" data-page="pB">
@@ -190,16 +207,11 @@ td.ag{border-right:1px solid var(--rule)}
         </div>
       </div>
     </div>
+
   </aside>
 
   <!-- ===================== MAIN ===================== -->
   <div class="main">
-
-    <div class="topbar">
-      <span class="now"><em id="tbNum">01</em><span id="tbName">진행 기준</span></span>
-      <span class="prog"><i id="tbBar"></i></span>
-      <span class="pct" id="tbPct">0%</span>
-    </div>
 
     <!-- ========== PAGE A ========== -->
     <div class="page" id="pA">
@@ -209,7 +221,7 @@ td.ag{border-right:1px solid var(--rule)}
         <h1 class="t-display" style="margin-top:11px">주간회의 매뉴얼</h1>
       </div>
 
-      <section id="a1" data-num="01" data-name="진행 기준">
+      <section id="a1">
         <div class="sechead">
           <span class="num">01</span>
           <h2 class="t-sec">진행 기준</h2>
@@ -236,49 +248,131 @@ td.ag{border-right:1px solid var(--rule)}
         </div>
       </section>
 
-      <section id="a2" data-num="02" data-name="진행 순서">
+      <section id="a2">
         <div class="sechead">
           <span class="num">02</span>
-          <h2 class="t-sec">진행 순서</h2>
+          <h2 class="t-sec">회의 1일 전 마감</h2>
         </div>
-        <p class="note">순서대로 진행한다. 정리 사항은 회의 중 운영현황판에 반영한다.</p>
+        <p class="note">회의일 전일(화요일)까지 완료. 회의는 마감된 운영현황판 기준으로 진행한다.</p>
 
         <div class="tw">
           <table>
-            <thead><tr><th style="width:56px">순서</th><th style="width:250px">회의 안건</th><th>정리 사항</th></tr></thead>
+            <thead><tr><th style="width:184px">마감 항목</th><th>마감 내용</th></tr></thead>
             <tbody>
               <tr>
-                <td class="od"><span class="sn">1</span></td>
-                <td class="ag"><span class="np">주간 긴급배포건 리뷰</span><span class="mm">※ 대상 — <span class="vchip d">장애/하자</span> <span class="vchip r">요청</span></span></td>
-                <td><span class="np">값별 설명 영역 기재 항목 충족 여부</span><span class="mm tbd">※ 그 외 정리 사항 미정</span></td>
+                <td class="it">주요업무 대상 지정</td>
+                <td><span class="np">주요업무 컬럼 <span class="vchip y s">대상</span> 지정 완료</span><span class="mm">※ 금주 신규 편입 건 포함</span></td>
               </tr>
               <tr>
-                <td class="od"><span class="sn">2</span></td>
-                <td class="ag"><span class="np">일정미정건 — 개발일정 요청 전</span></td>
-                <td><span class="np">현재 진행현황 / 개발 요청 일정</span></td>
+                <td class="it">운영현황판 기재 검증</td>
+                <td><span class="np">표기 대상 내용 검증 및 작성 완료</span><span class="mm">※ 긴급배포·주요업무 값 및 설명 영역 기재 항목 포함</span></td>
               </tr>
               <tr>
-                <td class="od"><span class="sn">3</span></td>
-                <td class="ag"><span class="np">일정미정건 — 개발일정 요청 후</span></td>
-                <td><span class="np">개발 검토 현황</span></td>
-              </tr>
-              <tr>
-                <td class="od"><span class="sn">4</span></td>
-                <td class="ag"><span class="np">금주 배포 건</span></td>
-                <td><span class="np">진행현황 확인 및 공유</span></td>
-              </tr>
-              <tr>
-                <td class="od"><span class="sn">5</span></td>
-                <td class="ag"><span class="np">주요업무</span><span class="mm">※ 대상 — <span class="vchip y">대상</span></span></td>
-                <td><span class="np">태스크별 진행현황</span><span class="mm tbd">※ 그 외 정리 사항 미정</span></td>
-              </tr>
-              <tr>
-                <td class="od"><span class="sn">6</span></td>
-                <td class="ag"><span class="np">금주 확정·진행 예정 주요 일정</span><span class="mm">※ 순서 1~5에서 논의한 건 제외</span></td>
-                <td><span class="np">일정 및 담당</span><span class="mm tbd">※ 그 외 정리 사항 미정</span></td>
+                <td class="it">품질 검증 단계 건</td>
+                <td><span class="np">품질 검증 결과 리포팅 및 회의 리뷰 준비 완료</span><span class="mm">※ 대상 — 처리현황이 품질 검증 단계인 건</span></td>
               </tr>
             </tbody>
           </table>
+        </div>
+      </section>
+
+      <section id="a3">
+        <div class="sechead">
+          <span class="num">03</span>
+          <h2 class="t-sec">진행 순서</h2>
+        </div>
+        <p class="note">순서대로 진행한다. 내용은 회의 중 운영현황판에 반영한다.</p>
+
+        <ol class="tl">
+          <li class="tl-i">
+            <span class="tl-node">1</span>
+            <div class="tl-card">
+              <div class="tl-head">
+                <h3 class="tl-t">주간 긴급배포건 리뷰</h3>
+                <span class="tl-tags"><span class="vchip d s">장애/하자</span><span class="vchip r s">요청</span></span>
+              </div>
+              <div class="tl-body">
+                <span class="np">금주 긴급배포 건 목록 리뷰</span>
+                <span class="mm">※ 건별 설명 영역 기재 항목 충족 여부</span>
+                <span class="mm">※ 장애/하자 — 원인·조치 완결 여부, 재발 방지 조치 필요 여부</span>
+                <span class="mm">※ 요청 — 정기 배포 주기 외 반영 사유 타당성</span>
+              </div>
+            </div>
+          </li>
+
+          <li class="tl-i">
+            <span class="tl-node">2</span>
+            <div class="tl-card">
+              <div class="tl-head">
+                <h3 class="tl-t">일정미정건 — 개발일정 요청 전</h3>
+              </div>
+              <div class="tl-body">
+                <span class="np">건별 현재 진행현황 및 개발 요청 예정일</span>
+                <span class="mm">※ 예정일 미확정 시 확정 시점 명시</span>
+              </div>
+            </div>
+          </li>
+
+          <li class="tl-i">
+            <span class="tl-node">3</span>
+            <div class="tl-card">
+              <div class="tl-head">
+                <h3 class="tl-t">일정미정건 — 개발일정 요청 후</h3>
+              </div>
+              <div class="tl-body">
+                <span class="np">건별 개발 검토 현황 및 개발일정 회신 여부</span>
+                <span class="mm">※ 일정 회신 완료 건은 배포 예정 주차 명시</span>
+              </div>
+            </div>
+          </li>
+
+          <li class="tl-i">
+            <span class="tl-node">4</span>
+            <div class="tl-card">
+              <div class="tl-head">
+                <h3 class="tl-t">금주 배포 건</h3>
+              </div>
+              <div class="tl-body">
+                <span class="np">금주 배포 예정 건 목록 및 처리현황 단계</span>
+                <span class="mm">※ 반영대기 외 단계 잔존 건은 금주 배포 가능 여부 확인</span>
+                <span class="mm">※ 지연 건 사유 및 재배포 주차</span>
+              </div>
+            </div>
+          </li>
+
+          <li class="tl-i">
+            <span class="tl-node">5</span>
+            <div class="tl-card">
+              <div class="tl-head">
+                <h3 class="tl-t">주요업무</h3>
+                <span class="tl-tags"><span class="vchip y s">대상</span></span>
+              </div>
+              <div class="tl-body">
+                <span class="np">주요업무 대상 태스크별 진행현황</span>
+                <span class="mm">※ 신규 대상 편입 건 및 해당 사유</span>
+                <span class="mm">※ 목표일 대비 지연 건 및 조정 일정</span>
+              </div>
+            </div>
+          </li>
+
+          <li class="tl-i">
+            <span class="tl-node">6</span>
+            <div class="tl-card">
+              <div class="tl-head">
+                <h3 class="tl-t">금주 확정·진행 예정 주요 일정</h3>
+              </div>
+              <span class="tl-sub">※ 순서 1~5에서 논의한 건 제외</span>
+              <div class="tl-body">
+                <span class="np">금주 확정 일정 및 진행 예정 일정 / 담당</span>
+                <span class="mm">※ 신규 접수건 중 일정 협의 필요 건</span>
+              </div>
+            </div>
+          </li>
+        </ol>
+
+        <div class="tl-end">
+          <span class="dot"><i></i></span>
+          <span class="lb">종료 — 회의 중 정리한 내용의 운영현황판 반영 확인</span>
         </div>
       </section>
     </div>
@@ -291,7 +385,7 @@ td.ag{border-right:1px solid var(--rule)}
         <h1 class="t-display" style="margin-top:11px">긴급배포 · 주요업무 정의</h1>
       </div>
 
-      <section id="b1" data-num="01" data-name="값의 정의">
+      <section id="b1">
         <div class="sechead">
           <span class="num">01</span>
           <h2 class="t-sec">값의 정의</h2>
@@ -328,7 +422,7 @@ td.ag{border-right:1px solid var(--rule)}
         </div>
       </section>
 
-      <section id="b2" data-num="02" data-name="설명 영역 기재 항목">
+      <section id="b2">
         <div class="sechead">
           <span class="num">02</span>
           <h2 class="t-sec">설명 영역 기재 항목</h2>
@@ -401,37 +495,32 @@ td.ag{border-right:1px solid var(--rule)}
 (function(){
   const grps=[...document.querySelectorAll('.navgrp')];
   const navs=[...document.querySelectorAll('.nav')];
-  const tbNum=document.getElementById('tbNum'), tbName=document.getElementById('tbName');
-  const tbBar=document.getElementById('tbBar'), tbPct=document.getElementById('tbPct');
+  const side=document.querySelector('.side');
   let io=null;
+
+  function mark(id){ navs.forEach(n=>n.classList.toggle('on',n.dataset.go===id)); }
 
   function observe(pageId){
     if(io) io.disconnect();
-    const secs=[...document.querySelectorAll('#'+pageId+' section[data-num]')];
+    const secs=[...document.querySelectorAll('#'+pageId+' section[id]')];
+    const live=new Set();
     io=new IntersectionObserver(es=>{
-      const vis=es.filter(e=>e.isIntersecting)
-                  .sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top);
-      if(vis.length) mark(vis[0].target);
-    },{rootMargin:'-88px 0px -60% 0px', threshold:0});
+      es.forEach(e=>{ if(e.isIntersecting) live.add(e.target); else live.delete(e.target); });
+      const arr=[...live].sort((a,b)=>a.getBoundingClientRect().top-b.getBoundingClientRect().top);
+      if(arr.length) mark(arr[0].id);
+    },{rootMargin:'-12px 0px -55% 0px', threshold:0});
     secs.forEach(s=>io.observe(s));
-    if(secs.length) mark(secs[0]);
+    if(secs.length) mark(secs[0].id);
   }
 
-  function mark(sec){
-    navs.forEach(n=>n.classList.toggle('on',n.dataset.go===sec.id));
-    tbNum.textContent=sec.dataset.num;
-    tbName.textContent=sec.dataset.name;
-  }
-
-  function showPage(pageId,scrollTop){
+  function showPage(pageId,toTop){
     grps.forEach(g=>{
       const on=g.dataset.page===pageId;
       g.classList.toggle('act',on);
       document.getElementById(g.dataset.page).hidden=!on;
     });
-    if(scrollTop!==false) window.scrollTo({top:0,behavior:'auto'});
+    if(toTop!==false) window.scrollTo({top:0,behavior:'auto'});
     observe(pageId);
-    prog();
   }
 
   grps.forEach(g=>{
@@ -444,17 +533,36 @@ td.ag{border-right:1px solid var(--rule)}
     const grp=b.closest('.navgrp');
     if(!grp.classList.contains('act')) showPage(grp.dataset.page,false);
     const t=document.getElementById(b.dataset.go);
-    if(t) t.scrollIntoView({block:'start'});
+    if(t){ mark(t.id); t.scrollIntoView({block:'start'}); }
   }));
 
-  function prog(){
-    const h=document.documentElement;
-    const max=h.scrollHeight-h.clientHeight;
-    const p=max>0?Math.min(100,Math.max(0,(h.scrollTop/max)*100)):0;
-    tbBar.style.width=p+'%'; tbPct.textContent=Math.round(p)+'%';
-  }
-  addEventListener('scroll',prog,{passive:true});
-  addEventListener('resize',prog);
+  /* ---------- 키보드 조작 ---------- */
+  const focusList=()=>[...side.querySelectorAll('.gh, .navgrp.act .nav')].filter(el=>el.offsetParent!==null);
+
+  side.addEventListener('keydown',e=>{
+    if(!['ArrowDown','ArrowUp','Home','End'].includes(e.key)) return;
+    const list=focusList(), i=list.indexOf(document.activeElement);
+    if(i<0) return;
+    e.preventDefault();
+    let n = e.key==='ArrowDown'?i+1 : e.key==='ArrowUp'?i-1 : e.key==='Home'?0 : list.length-1;
+    n=(n+list.length)%list.length;
+    list[n].focus();
+  });
+
+  document.addEventListener('keydown',e=>{
+    if(e.metaKey||e.ctrlKey||e.altKey) return;
+    const t=e.target;
+    if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable)) return;
+    const pages=grps.map(g=>g.dataset.page);
+    const cur=grps.findIndex(g=>g.classList.contains('act'));
+    if(e.key==='ArrowRight'){ e.preventDefault(); showPage(pages[(cur+1)%pages.length]); }
+    else if(e.key==='ArrowLeft'){ e.preventDefault(); showPage(pages[(cur-1+pages.length)%pages.length]); }
+    else if(/^[1-9]$/.test(e.key)){
+      const list=[...document.querySelectorAll('.navgrp.act .nav')];
+      const b=list[+e.key-1];
+      if(b){ e.preventDefault(); b.click(); }
+    }
+  });
 
   showPage('pA',false);
 })();

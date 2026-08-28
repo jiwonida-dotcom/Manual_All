@@ -192,10 +192,11 @@ td.v{white-space:nowrap}
 
     <div class="navwrap">
       <div class="navgrp act" data-page="pA">
-        <button class="gh"><span class="bar"></span><span class="gt">주간회의 매뉴얼</span><span class="gc">2</span></button>
+        <button class="gh"><span class="bar"></span><span class="gt">주간회의 매뉴얼</span><span class="gc">3</span></button>
         <div class="navlist">
           <button class="nav" data-go="a1"><em>01</em>진행 기준</button>
-          <button class="nav" data-go="a2"><em>02</em>진행 순서</button>
+          <button class="nav" data-go="a2"><em>02</em>회의 1일 전 마감</button>
+          <button class="nav" data-go="a3"><em>03</em>진행 순서</button>
         </div>
       </div>
       <div class="navgrp" data-page="pB">
@@ -250,6 +251,34 @@ td.v{white-space:nowrap}
       <section id="a2">
         <div class="sechead">
           <span class="num">02</span>
+          <h2 class="t-sec">회의 1일 전 마감</h2>
+        </div>
+        <p class="note">회의일 전일(화요일)까지 완료. 회의는 마감된 운영현황판 기준으로 진행한다.</p>
+
+        <div class="tw">
+          <table>
+            <thead><tr><th style="width:184px">마감 항목</th><th>마감 내용</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="it">주요업무 대상 지정</td>
+                <td><span class="np">주요업무 컬럼 <span class="vchip y s">대상</span> 지정 완료</span><span class="mm">※ 금주 신규 편입 건 포함</span></td>
+              </tr>
+              <tr>
+                <td class="it">운영현황판 기재 검증</td>
+                <td><span class="np">표기 대상 내용 검증 및 작성 완료</span><span class="mm">※ 긴급배포·주요업무 값 및 설명 영역 기재 항목 포함</span></td>
+              </tr>
+              <tr>
+                <td class="it">품질 검증 단계 건</td>
+                <td><span class="np">품질 검증 결과 리포팅 및 회의 리뷰 준비 완료</span><span class="mm">※ 대상 — 처리현황이 품질 검증 단계인 건</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="a3">
+        <div class="sechead">
+          <span class="num">03</span>
           <h2 class="t-sec">진행 순서</h2>
         </div>
         <p class="note">순서대로 진행한다. 내용은 회의 중 운영현황판에 반영한다.</p>
@@ -474,11 +503,12 @@ td.v{white-space:nowrap}
   function observe(pageId){
     if(io) io.disconnect();
     const secs=[...document.querySelectorAll('#'+pageId+' section[id]')];
+    const live=new Set();
     io=new IntersectionObserver(es=>{
-      const vis=es.filter(e=>e.isIntersecting)
-                  .sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top);
-      if(vis.length) mark(vis[0].target.id);
-    },{rootMargin:'-10px 0px -60% 0px', threshold:0});
+      es.forEach(e=>{ if(e.isIntersecting) live.add(e.target); else live.delete(e.target); });
+      const arr=[...live].sort((a,b)=>a.getBoundingClientRect().top-b.getBoundingClientRect().top);
+      if(arr.length) mark(arr[0].id);
+    },{rootMargin:'-12px 0px -55% 0px', threshold:0});
     secs.forEach(s=>io.observe(s));
     if(secs.length) mark(secs[0].id);
   }
@@ -503,7 +533,7 @@ td.v{white-space:nowrap}
     const grp=b.closest('.navgrp');
     if(!grp.classList.contains('act')) showPage(grp.dataset.page,false);
     const t=document.getElementById(b.dataset.go);
-    if(t) t.scrollIntoView({block:'start'});
+    if(t){ mark(t.id); t.scrollIntoView({block:'start'}); }
   }));
 
   /* ---------- 키보드 조작 ---------- */
