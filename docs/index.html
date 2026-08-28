@@ -166,6 +166,18 @@ td.v{white-space:nowrap}
 .vchip.n{background:var(--surface-3); color:var(--ink-500); border-color:transparent}
 .vchip.y{background:var(--pos-bg); color:var(--pos); border-color:transparent}
 .vchip.s{font-size:11px; padding:2px 7px}
+.searchbar{display:flex; align-items:center; gap:10px; background:var(--surface); border-radius:var(--r-l); box-shadow:var(--sh-2); padding:12px 16px}
+.searchbar svg{width:17px; height:17px; color:var(--ink-400); flex:none}
+.searchbar input{flex:1; min-width:0; border:none; background:none; outline:none; font-family:inherit;
+  font-size:14px; font-weight:500; letter-spacing:-.012em; color:var(--ink-900); line-height:1.6; padding:2px 0}
+.searchbar input::placeholder{color:var(--ink-400); font-weight:400}
+.searchbar input::-webkit-search-cancel-button{cursor:pointer}
+.searchbar:focus-within{box-shadow:var(--sh-2), 0 0 0 2px var(--indigo)}
+.scount{flex:none; font-size:11.5px; font-weight:700; letter-spacing:.02em; color:var(--ink-400);
+  font-variant-numeric:tabular-nums; background:var(--surface-2); padding:3px 8px; border-radius:6px}
+tr.noresult td{text-align:center; color:var(--ink-400); font-size:13px; padding:26px 16px}
+td.vr{font-weight:700; color:var(--ink-900); letter-spacing:-.01em; font-variant-numeric:tabular-nums; white-space:nowrap}
+td.dt{color:var(--ink-700); font-variant-numeric:tabular-nums; white-space:nowrap}
 
 @media (max-width:900px){
   .shell{grid-template-columns:1fr; padding:14px 14px 60px; gap:14px}
@@ -204,6 +216,12 @@ td.v{white-space:nowrap}
         <div class="navlist">
           <button class="nav" data-go="b1"><em>01</em>값의 정의</button>
           <button class="nav" data-go="b2"><em>02</em>설명 영역 기재 항목</button>
+        </div>
+      </div>
+      <div class="navgrp" data-page="pC">
+        <button class="gh"><span class="bar"></span><span class="gt">문서 관리</span><span class="gc">1</span></button>
+        <div class="navlist">
+          <button class="nav" data-go="c1"><em>01</em>변경이력</button>
         </div>
       </div>
     </div>
@@ -488,6 +506,48 @@ td.v{white-space:nowrap}
       </section>
     </div>
 
+    <!-- ========== PAGE C ========== -->
+    <div class="page" id="pC" hidden>
+
+      <div class="hero">
+        <div class="t-label">DX혁신팀 · 운영현황판</div>
+        <h1 class="t-display" style="margin-top:11px">변경이력</h1>
+      </div>
+
+      <section id="c1">
+        <div class="sechead">
+          <span class="num">01</span>
+          <h2 class="t-sec">변경이력</h2>
+        </div>
+
+        <div class="searchbar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2"/></svg>
+          <input id="chq" type="search" autocomplete="off" placeholder="버전 · 적용일 · 구분 · 변경 내용 검색" aria-label="변경이력 검색">
+          <span class="scount" id="chc"></span>
+        </div>
+
+        <div class="tw">
+          <table id="chtable">
+            <thead><tr><th style="width:74px">버전</th><th style="width:104px">적용일</th><th style="width:76px">구분</th><th>변경 내용</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="vr">v1.0</td>
+                <td class="dt">2026-08-28</td>
+                <td><span class="vchip s" style="background:var(--indigo-100); color:var(--indigo); border-color:transparent">제정</span></td>
+                <td>
+                  <span class="np">긴급배포 · 주요업무 컬럼 체계 및 주간회의 운영 기준 제정</span>
+                  <span class="mm">※ 컬럼 분리 — 주요 트래킹 단일 컬럼 → 긴급배포 · 주요업무 2컬럼</span>
+                  <span class="mm">※ 판정 기준 변경 — 주요업무 판정을 개발 기간에서 런칭 · 기능 구축 · 보고·KPI 연결로 전환</span>
+                  <span class="mm">※ 신설 — 장애/하자 건의 주요업무 ‘대상’ 병행 기재</span>
+                  <span class="mm">※ 신설 — 값별 설명 영역 필수 기재 항목</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
   </div>
 </div>
 
@@ -563,6 +623,33 @@ td.v{white-space:nowrap}
       if(b){ e.preventDefault(); b.click(); }
     }
   });
+
+  /* ---------- 변경이력 검색 ---------- */
+  const q=document.getElementById('chq');
+  if(q){
+    const tb=document.querySelector('#chtable tbody');
+    const cnt=document.getElementById('chc');
+    const rows=[...tb.querySelectorAll('tr')];
+    const empty=document.createElement('tr');
+    empty.className='noresult';
+    empty.innerHTML='<td colspan="4">검색 결과가 없습니다</td>';
+
+    function run(){
+      const v=q.value.trim().toLowerCase();
+      let n=0;
+      rows.forEach(r=>{
+        const hit=!v||r.textContent.toLowerCase().includes(v);
+        r.hidden=!hit;
+        if(hit) n++;
+      });
+      if(n===0){ if(!empty.parentNode) tb.appendChild(empty); }
+      else if(empty.parentNode) empty.remove();
+      cnt.textContent=v?n+' / '+rows.length:rows.length+'건';
+    }
+    q.addEventListener('input',run);
+    q.addEventListener('keydown',e=>{ if(e.key==='Escape'){ q.value=''; run(); } });
+    run();
+  }
 
   showPage('pA',false);
 })();
