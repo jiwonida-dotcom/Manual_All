@@ -4,12 +4,12 @@
 
 ## 배포
 
-GitHub Pages · Source = `main` branch / `/docs` folder
+GitHub Pages · Source = `main` branch / `/ (root)`
 
 | 경로 | 내용 |
 |---|---|
-| `docs/index.html` | 매뉴얼 본문 (단일 HTML, 좌측 메뉴 2페이지) |
-| `docs/font/PretendardVariable.woff2` | Pretendard Variable — 문서 기본 서체 |
+| `index.html` | 매뉴얼 본문 (단일 HTML, 좌측 메뉴 2페이지) |
+| `font/PretendardVariable.woff2` | Pretendard Variable — 문서 기본 서체 |
 
 ## 문서 구성
 
@@ -18,7 +18,7 @@ GitHub Pages · Source = `main` branch / `/docs` folder
 | 섹션 | 내용 |
 |---|---|
 | 01 진행 기준 | 회의일시 · 미개최 조건 · 아젠다 |
-| 02 진행 순서 | 6단계 안건 및 정리 사항 |
+| 02 진행 순서 | 6단계 타임라인 — 안건별 내용 |
 
 **긴급배포 · 주요업무 정의**
 
@@ -26,6 +26,15 @@ GitHub Pages · Source = `main` branch / `/docs` folder
 |---|---|
 | 01 값의 정의 | 긴급배포 3값 · 주요업무 2값 |
 | 02 설명 영역 기재 항목 | 값별 필수 기재 항목 |
+
+## 조작
+
+| 키 | 동작 |
+|---|---|
+| `←` `→` | 페이지 전환 |
+| `1` `2` | 섹션 이동 |
+| `↑` `↓` | 메뉴 이동 |
+| `Enter` | 선택 |
 
 ## 기준 수립 근거
 

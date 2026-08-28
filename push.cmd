@@ -63,7 +63,7 @@ echo ---- DONE ----
 echo repo  : https://github.com/jiwonida-dotcom/202608_GoogleSheet
 echo pages : https://jiwonida-dotcom.github.io/202608_GoogleSheet/
 echo.
-echo * GitHub Pages : Settings ^> Pages ^> Source = main / docs
+echo * GitHub Pages : Settings ^> Pages ^> Source = main / (root)
 echo.
 pause
 exit /b 0
