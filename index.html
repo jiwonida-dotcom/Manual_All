@@ -6,7 +6,6 @@
 <title>운영현황판 주간회의 매뉴얼</title>
 </head>
 <body>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap">
 <style>
 @font-face{font-family:"Pretendard Variable";font-style:normal;font-weight:100 900;font-display:swap;src:url("font/PretendardVariable.woff2") format("woff2-variations")}
 /* ============================ TOKENS ============================ */
@@ -101,7 +100,7 @@ b{font-weight:600; color:var(--ink-900)}
 .navgrp.act .gh .gc{background:var(--indigo-100); color:var(--indigo)}
 .navlist{display:flex; flex-direction:column; gap:4px; padding-top:8px}
 .navgrp:not(.act) .navlist{display:none}
-.nav{display:flex; align-items:center; gap:10px; padding:10px 10px; border-radius:10px; font-size:13.5px; font-weight:500; letter-spacing:-.016em; color:var(--ink-500); border:none; background:none; cursor:pointer; text-align:left; width:100%; transition:background .15s,color .15s}
+.nav{display:flex; align-items:center; gap:10px; padding:10px 10px; border-radius:10px; font-size:13.5px; font-weight:500; letter-spacing:-.016em; color:var(--ink-500); border:none; background:none; cursor:pointer; text-align:left; width:100%; text-decoration:none; transition:background .15s,color .15s}
 .nav em{font-style:normal; font-size:10.5px; font-weight:800; letter-spacing:.04em; color:var(--ink-300); width:17px; flex:none; font-variant-numeric:tabular-nums}
 .nav:hover{background:var(--surface-2); color:var(--ink-700)}
 .nav.on{background:var(--indigo-100); color:var(--indigo); font-weight:600}
@@ -202,29 +201,29 @@ td.dt{color:var(--ink-700); font-variant-numeric:tabular-nums; white-space:nowra
       </span>
     </div>
 
-    <div class="navwrap">
+    <nav class="navwrap" aria-label="문서 목차">
       <div class="navgrp act" data-page="pA">
-        <button class="gh"><span class="bar"></span><span class="gt">주간회의 매뉴얼</span><span class="gc">3</span></button>
-        <div class="navlist">
-          <button class="nav" data-go="a1"><em>01</em>진행 기준</button>
-          <button class="nav" data-go="a2"><em>02</em>회의 1일 전 마감</button>
-          <button class="nav" data-go="a3"><em>03</em>진행 순서</button>
+        <button type="button" class="gh" aria-expanded="true" aria-controls="nl-pA"><span class="bar"></span><span class="gt">주간회의 매뉴얼</span><span class="gc">3</span></button>
+        <div class="navlist" id="nl-pA">
+          <a class="nav" href="#a1" data-go="a1"><em>01</em>진행 기준</a>
+          <a class="nav" href="#a2" data-go="a2"><em>02</em>회의 1일 전 마감</a>
+          <a class="nav" href="#a3" data-go="a3"><em>03</em>진행 순서</a>
         </div>
       </div>
       <div class="navgrp" data-page="pB">
-        <button class="gh"><span class="bar"></span><span class="gt">긴급배포 · 주요업무 정의</span><span class="gc">2</span></button>
-        <div class="navlist">
-          <button class="nav" data-go="b1"><em>01</em>값의 정의</button>
-          <button class="nav" data-go="b2"><em>02</em>설명 영역 기재 항목</button>
+        <button type="button" class="gh" aria-expanded="false" aria-controls="nl-pB"><span class="bar"></span><span class="gt">긴급배포 · 주요업무 정의</span><span class="gc">2</span></button>
+        <div class="navlist" id="nl-pB">
+          <a class="nav" href="#b1" data-go="b1"><em>01</em>값의 정의</a>
+          <a class="nav" href="#b2" data-go="b2"><em>02</em>설명 영역 기재 항목</a>
         </div>
       </div>
       <div class="navgrp" data-page="pC">
-        <button class="gh"><span class="bar"></span><span class="gt">문서 관리</span><span class="gc">1</span></button>
-        <div class="navlist">
-          <button class="nav" data-go="c1"><em>01</em>변경이력</button>
+        <button type="button" class="gh" aria-expanded="false" aria-controls="nl-pC"><span class="bar"></span><span class="gt">문서 관리</span><span class="gc">1</span></button>
+        <div class="navlist" id="nl-pC">
+          <a class="nav" href="#c1" data-go="c1"><em>01</em>변경이력</a>
         </div>
       </div>
-    </div>
+    </nav>
 
   </aside>
 
@@ -556,45 +555,117 @@ td.dt{color:var(--ink-700); font-variant-numeric:tabular-nums; white-space:nowra
   const grps=[...document.querySelectorAll('.navgrp')];
   const navs=[...document.querySelectorAll('.nav')];
   const side=document.querySelector('.side');
-  let io=null;
+  const pageOf=id=>{ const el=document.getElementById(id); const p=el&&el.closest('.page'); return p?p.id:null; };
+  const curPage=()=>{ const g=grps.find(g=>g.classList.contains('act')); return g?g.dataset.page:null; };
+  let io=null, spy=null;      // spy(): 현재 교차 상태 기준으로 active 재계산
+  let lock=null, lockTimer=0; // 클릭 이동 중에는 목적지를 잠가 scroll spy가 덮어쓰지 않게 함
 
-  function mark(id){ navs.forEach(n=>n.classList.toggle('on',n.dataset.go===id)); }
+  function mark(id){
+    navs.forEach(n=>{
+      const on=n.dataset.go===id;
+      n.classList.toggle('on',on);
+      if(on) n.setAttribute('aria-current','location'); else n.removeAttribute('aria-current');
+    });
+  }
+  function setHash(id){ if(id&&'#'+id!==location.hash) history.replaceState(null,'','#'+id); }
+
+  /* recalc=true 는 사용자가 직접 개입(휠/터치)한 경우 — 즉시 실제 위치로 재계산 */
+  function release(recalc){
+    if(!lock) return;
+    lock=null; clearTimeout(lockTimer);
+    if(recalc&&spy) spy();
+  }
+  function engage(id){
+    lock=id; clearTimeout(lockTimer);
+    lockTimer=setTimeout(()=>release(false),1500); // 안전장치 — 스크롤이 발생하지 않는 경우
+  }
+  addEventListener('wheel',()=>release(true),{passive:true});
+  addEventListener('touchstart',()=>release(true),{passive:true});
+  let settle=0;
+  addEventListener('scroll',()=>{
+    if(!lock) return;
+    clearTimeout(settle);
+    settle=setTimeout(()=>release(false),120); // 이동 완료(settle) 시 잠금 해제
+  },{passive:true});
 
   function observe(pageId){
     if(io) io.disconnect();
     const secs=[...document.querySelectorAll('#'+pageId+' section[id]')];
     const live=new Set();
-    io=new IntersectionObserver(es=>{
-      es.forEach(e=>{ if(e.isIntersecting) live.add(e.target); else live.delete(e.target); });
+    spy=()=>{
       const arr=[...live].sort((a,b)=>a.getBoundingClientRect().top-b.getBoundingClientRect().top);
       if(arr.length) mark(arr[0].id);
+    };
+    io=new IntersectionObserver(es=>{
+      es.forEach(e=>{ if(e.isIntersecting) live.add(e.target); else live.delete(e.target); });
+      if(!lock) spy();
     },{rootMargin:'-12px 0px -55% 0px', threshold:0});
     secs.forEach(s=>io.observe(s));
-    if(secs.length) mark(secs[0].id);
+    if(secs.length&&!lock) mark(secs[0].id);
   }
 
   function showPage(pageId,toTop){
+    const prev=document.activeElement;
     grps.forEach(g=>{
       const on=g.dataset.page===pageId;
       g.classList.toggle('act',on);
+      g.querySelector('.gh').setAttribute('aria-expanded',on?'true':'false');
       document.getElementById(g.dataset.page).hidden=!on;
     });
-    if(toTop!==false) window.scrollTo({top:0,behavior:'auto'});
+    if(toTop!==false) window.scrollTo({top:0,behavior:'instant'});
     observe(pageId);
+    /* 페이지 전환으로 포커스가 숨겨진 목차 항목에서 소실된 경우 활성 그룹 헤더로 복원 */
+    if(prev&&side.contains(prev)&&prev.offsetParent===null){
+      const gh=document.querySelector('.navgrp.act .gh');
+      if(gh) gh.focus({preventScroll:true});
+    }
+  }
+
+  function goTo(id){
+    const t=document.getElementById(id); if(!t) return;
+    const pid=pageOf(id); if(!pid) return;
+    const crossing=pid!==curPage();
+    engage(id);
+    if(crossing) showPage(pid,false);
+    mark(id);
+    /* 같은 페이지 안에서는 smooth(CSS·reduced-motion 존중), 페이지 전환을 동반하면 즉시 배치 */
+    t.scrollIntoView({block:'start',behavior:crossing?'instant':'auto'});
+    setHash(id);
   }
 
   grps.forEach(g=>{
     g.querySelector('.gh').addEventListener('click',()=>{
-      if(!g.classList.contains('act')) showPage(g.dataset.page);
+      if(!g.classList.contains('act')){
+        showPage(g.dataset.page);
+        setHash(g.dataset.page);
+      }else if(window.scrollY>0){
+        /* 이미 활성인 그룹 재클릭 — 해당 페이지 맨 위로 */
+        const first=document.querySelector('#'+g.dataset.page+' section[id]');
+        if(first){ engage(first.id); mark(first.id); }
+        window.scrollTo({top:0,behavior:'auto'});
+      }
     });
   });
 
-  navs.forEach(b=>b.addEventListener('click',()=>{
-    const grp=b.closest('.navgrp');
-    if(!grp.classList.contains('act')) showPage(grp.dataset.page,false);
-    const t=document.getElementById(b.dataset.go);
-    if(t){ mark(t.id); t.scrollIntoView({block:'start'}); }
+  navs.forEach(a=>a.addEventListener('click',e=>{
+    if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button!==0) return; // 새 탭 열기 등 브라우저 기본 동작 유지
+    e.preventDefault();
+    goTo(a.dataset.go);
   }));
+
+  /* ---------- URL hash — 딥링크·새로고침·공유 ---------- */
+  function fromHash(){
+    const id=decodeURIComponent(location.hash.slice(1));
+    if(!id) return false;
+    if(grps.some(g=>g.dataset.page===id)){ showPage(id); return true; }
+    const t=document.getElementById(id), pid=pageOf(id);
+    if(!t||!pid) return false;
+    showPage(pid,false);
+    engage(id); mark(id);
+    t.scrollIntoView({block:'start',behavior:'instant'});
+    return true;
+  }
+  addEventListener('hashchange',fromHash);
 
   /* ---------- 키보드 조작 ---------- */
   const focusList=()=>[...side.querySelectorAll('.gh, .navgrp.act .nav')].filter(el=>el.offsetParent!==null);
@@ -615,8 +686,8 @@ td.dt{color:var(--ink-700); font-variant-numeric:tabular-nums; white-space:nowra
     if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable)) return;
     const pages=grps.map(g=>g.dataset.page);
     const cur=grps.findIndex(g=>g.classList.contains('act'));
-    if(e.key==='ArrowRight'){ e.preventDefault(); showPage(pages[(cur+1)%pages.length]); }
-    else if(e.key==='ArrowLeft'){ e.preventDefault(); showPage(pages[(cur-1+pages.length)%pages.length]); }
+    if(e.key==='ArrowRight'){ e.preventDefault(); const p=pages[(cur+1)%pages.length]; showPage(p); setHash(p); }
+    else if(e.key==='ArrowLeft'){ e.preventDefault(); const p=pages[(cur-1+pages.length)%pages.length]; showPage(p); setHash(p); }
     else if(/^[1-9]$/.test(e.key)){
       const list=[...document.querySelectorAll('.navgrp.act .nav')];
       const b=list[+e.key-1];
@@ -629,29 +700,30 @@ td.dt{color:var(--ink-700); font-variant-numeric:tabular-nums; white-space:nowra
   if(q){
     const tb=document.querySelector('#chtable tbody');
     const cnt=document.getElementById('chc');
-    const rows=[...tb.querySelectorAll('tr')];
+    const rows=[...tb.querySelectorAll('tr')].map(r=>({r,text:r.textContent.toLowerCase()}));
     const empty=document.createElement('tr');
     empty.className='noresult';
     empty.innerHTML='<td colspan="4">검색 결과가 없습니다</td>';
 
     function run(){
-      const v=q.value.trim().toLowerCase();
+      /* 공백으로 구분된 여러 단어는 모두 포함(AND)으로 매칭 */
+      const terms=q.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
       let n=0;
-      rows.forEach(r=>{
-        const hit=!v||r.textContent.toLowerCase().includes(v);
+      rows.forEach(({r,text})=>{
+        const hit=!terms.length||terms.every(t=>text.includes(t));
         r.hidden=!hit;
         if(hit) n++;
       });
       if(n===0){ if(!empty.parentNode) tb.appendChild(empty); }
       else if(empty.parentNode) empty.remove();
-      cnt.textContent=v?n+' / '+rows.length:rows.length+'건';
+      cnt.textContent=terms.length?n+' / '+rows.length:rows.length+'건';
     }
     q.addEventListener('input',run);
     q.addEventListener('keydown',e=>{ if(e.key==='Escape'){ q.value=''; run(); } });
     run();
   }
 
-  showPage('pA',false);
+  if(!fromHash()) showPage('pA',false);
 })();
 </script>
 </body>
