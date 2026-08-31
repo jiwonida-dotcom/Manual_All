@@ -187,6 +187,15 @@ td.dt{color:var(--ink-700); font-variant-numeric:tabular-nums; white-space:nowra
   .tl-i::before{left:17px; top:38px}
   .tl-end .dot{width:36px}
 }
+
+/* ==================== PRESENCE (현재 접속 세션수) ==================== */
+.presence{display:none; align-items:center; gap:9px; margin-top:auto; padding:11px 13px;
+  background:var(--surface-2); border:1px solid var(--rule); border-radius:12px;
+  font-size:12px; font-weight:600; letter-spacing:-.01em; color:var(--ink-500)}
+.presence.on{display:flex}
+.presence .pdot{width:7px; height:7px; border-radius:50%; flex:none; background:var(--pos); box-shadow:0 0 0 3px var(--pos-bg)}
+.presence .pdot.off{background:var(--ink-300); box-shadow:0 0 0 3px var(--surface-3)}
+.presence .pn{margin-left:auto; font-size:12.5px; font-weight:700; color:var(--ink-900); font-variant-numeric:tabular-nums}
 </style>
 
 <div class="shell">
@@ -225,6 +234,11 @@ td.dt{color:var(--ink-700); font-variant-numeric:tabular-nums; white-space:nowra
       </div>
     </nav>
 
+    <div class="presence" id="presence" aria-live="polite" title="이 문서를 열어둔 세션 수">
+      <span class="pdot" id="pdot"></span>
+      <span>현재 접속</span>
+      <span class="pn" id="pnum">–</span>
+    </div>
   </aside>
 
   <!-- ===================== MAIN ===================== -->
@@ -726,5 +740,64 @@ td.dt{color:var(--ink-700); font-variant-numeric:tabular-nums; white-space:nowra
   if(!fromHash()) showPage('pA',false);
 })();
 </script>
+<!-- ============ 현재 접속 세션수 · Firebase Realtime Database presence ============ -->
+<!-- 설정 방법: FIREBASE_PRESENCE.md 참조. 아래 config 미입력 시 배지는 표시되지 않음. -->
+<script type="module">
+const FIREBASE_CONFIG = {
+  apiKey: "",
+  authDomain: "",
+  databaseURL: "",
+  projectId: "",
+  appId: ""
+};
+const ROOM     = "manual-202608";  // 문서 구분 키
+const BEAT_MS  = 30000;            // 하트비트 주기
+const STALE_MS = 90000;            // 미갱신 세션 제외 기준
+const GC_MS    = 600000;           // 잔여 레코드 정리 기준
+
+if(FIREBASE_CONFIG.databaseURL){
+  const box=document.getElementById('presence');
+  const num=document.getElementById('pnum');
+  const dot=document.getElementById('pdot');
+  try{
+    const [appMod, dbMod] = await Promise.all([
+      import('https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js'),
+      import('https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js')
+    ]);
+    const { getDatabase, ref, push, set, remove, onValue, onDisconnect, serverTimestamp } = dbMod;
+    const rdb     = getDatabase(appMod.initializeApp(FIREBASE_CONFIG));
+    const roomRef = ref(rdb, 'presence/' + ROOM);
+    const meRef   = push(roomRef);
+    let beat = null, skew = 0;
+
+    onValue(ref(rdb, '.info/serverTimeOffset'), s => { skew = s.val() || 0; });
+
+    onValue(ref(rdb, '.info/connected'), s => {
+      clearInterval(beat);
+      if(!s.val()){ dot.classList.add('off'); return; }
+      dot.classList.remove('off');
+      onDisconnect(meRef).remove();
+      set(meRef, serverTimestamp());
+      beat = setInterval(() => set(meRef, serverTimestamp()), BEAT_MS);
+    });
+
+    onValue(roomRef, s => {
+      const now = Date.now() + skew;
+      let n = 0;
+      s.forEach(c => {
+        const t = c.val();
+        if(typeof t !== 'number') return;
+        if(now - t < STALE_MS) n++;
+        else if(now - t > GC_MS) remove(c.ref).catch(() => {});
+      });
+      num.textContent = Math.max(n, 1) + '명';
+      box.classList.add('on');
+    });
+
+    addEventListener('pagehide', () => { clearInterval(beat); remove(meRef).catch(() => {}); });
+  }catch(e){ /* SDK 로드 실패 · 네트워크 차단 시 배지 미표시 */ }
+}
+</script>
 </body>
+
 </html>

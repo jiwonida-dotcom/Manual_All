@@ -11,6 +11,12 @@ GitHub Pages · Source = `main` branch / `/ (root)`
 | `index.html` | 매뉴얼 본문 (단일 HTML, 좌측 메뉴 2페이지) |
 | `font/PretendardVariable.woff2` | Pretendard Variable — 문서 기본 서체 |
 
+## 현재 접속 표시
+
+좌측 메뉴 하단 「현재 접속 N명」 배지 — Firebase Realtime Database presence 기반.
+설정 절차·보안 규칙은 `FIREBASE_PRESENCE.md` 참조.
+`index.html` 하단 `FIREBASE_CONFIG` 미입력 시 배지 미표시. ※ 문서 본문 기능에는 영향 없음
+
 ## 문서 구성
 
 **주간회의 매뉴얼**
