@@ -87,6 +87,19 @@ b{font-weight:600; color:var(--ink-900)}
 
 /* --- nav --- */
 .navwrap{display:flex; flex-direction:column; gap:8px}
+
+/* --- 최근 업데이트 --- */
+.upd{display:none; flex-direction:column; gap:9px; padding-top:16px; border-top:1px solid var(--rule)}
+.upd.on{display:flex}
+.upd .ut{display:flex; align-items:center; gap:6px; font-size:9.5px; font-weight:800; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-400); padding:0 2px}
+.upd .ut i{width:5px; height:5px; border-radius:50%; background:var(--indigo); flex:none; font-style:normal}
+.upd-card{display:block; text-decoration:none; background:var(--surface-2); border:1px solid var(--rule); border-radius:11px; padding:11px 12px 12px; transition:background .15s, border-color .15s}
+.upd-card:hover{background:var(--surface-3); border-color:var(--rule-2)}
+.upd-meta{display:flex; align-items:center; gap:6px; flex-wrap:wrap}
+.upd-meta .uv{font-size:9.5px; font-weight:800; letter-spacing:.03em; color:var(--indigo); background:var(--indigo-100); padding:2px 5px; border-radius:5px; font-variant-numeric:tabular-nums}
+.upd-meta .uat{font-size:10.5px; font-weight:600; color:var(--ink-400); font-variant-numeric:tabular-nums}
+.upd-by{display:block; margin-top:7px; font-size:10.5px; font-weight:600; color:var(--ink-500); letter-spacing:-.008em}
+.upd-txt{display:block; margin-top:5px; font-size:12px; font-weight:600; color:var(--ink-900); line-height:1.55; letter-spacing:-.014em}
 .navgrp{display:flex; flex-direction:column; gap:4px; padding:18px 0 6px; border-top:1px solid var(--rule)}
 .navgrp:first-child{border-top:none; padding-top:4px}
 .gh{display:flex; align-items:center; gap:9px; padding:8px 6px; border-radius:9px; border:none; background:none; cursor:pointer; width:100%; text-align:left; transition:background .15s}
@@ -252,6 +265,15 @@ tbody tr.tot td{background:var(--surface-2); font-weight:700; color:var(--ink-90
         </div>
       </div>
     </nav>
+
+    <div class="upd" id="upd">
+      <div class="ut"><i></i>최근 업데이트</div>
+      <a class="upd-card" id="updCard" href="#c1">
+        <span class="upd-meta"><span class="uv" id="updVer"></span><span class="uat" id="updAt"></span></span>
+        <span class="upd-by" id="updBy"></span>
+        <span class="upd-txt" id="updTxt"></span>
+      </a>
+    </div>
 
     <div class="presence" id="presence" aria-live="polite" title="이 문서를 열어둔 세션 수">
       <span class="pdot" id="pdot"></span>
@@ -844,7 +866,7 @@ tbody tr.tot td{background:var(--surface-2); font-weight:700; color:var(--ink-90
           <table id="chtable">
             <thead><tr><th style="width:74px">버전</th><th style="width:104px">적용일</th><th style="width:76px">구분</th><th>변경 내용</th></tr></thead>
             <tbody>
-              <tr>
+              <tr data-at="2026-09-01 17:20" data-by="허지원 (DX혁신팀)">
                 <td class="vr">v1.2</td>
                 <td class="dt">2026-09-01</td>
                 <td><span class="vchip n s">개정</span></td>
@@ -855,7 +877,7 @@ tbody tr.tot td{background:var(--surface-2); font-weight:700; color:var(--ink-90
                   <span class="mm">※ 미수록 — 비상연락망 담당자 연락처 (개인정보, 원본 문서 참조)</span>
                 </td>
               </tr>
-              <tr>
+              <tr data-at="2026-09-01 17:05" data-by="허지원 (DX혁신팀)">
                 <td class="vr">v1.1</td>
                 <td class="dt">2026-09-01</td>
                 <td><span class="vchip n s">개정</span></td>
@@ -865,7 +887,7 @@ tbody tr.tot td{background:var(--surface-2); font-weight:700; color:var(--ink-90
                   <span class="mm">※ 기재 기준 — 직무별 투입 M/M, 자사 인력 · 협력사(프레임아웃 · 케이스마텍) 구분</span>
                 </td>
               </tr>
-              <tr>
+              <tr data-at="2026-08-28 13:37" data-by="허지원 (DX혁신팀)">
                 <td class="vr">v1.0</td>
                 <td class="dt">2026-08-28</td>
                 <td><span class="vchip s" style="background:var(--indigo-100); color:var(--indigo); border-color:transparent">제정</span></td>
@@ -1058,6 +1080,24 @@ tbody tr.tot td{background:var(--surface-2); font-weight:700; color:var(--ink-90
     q.addEventListener('keydown',e=>{ if(e.key==='Escape'){ q.value=''; run(); } });
     run();
   }
+
+  /* --- 최근 업데이트 배지 — 변경이력 최신 1건 --- */
+  (function(){
+    const box=document.getElementById('upd'); if(!box) return;
+    const row=document.querySelector('#chtable tbody tr'); if(!row) return;
+    const ver=row.querySelector('.vr'), np=row.querySelector('.np');
+    const at=row.dataset.at||(row.querySelector('.dt')?row.querySelector('.dt').textContent.trim():'');
+    const by=row.dataset.by||'';
+    if(!np) return;
+    document.getElementById('updVer').textContent=ver?ver.textContent.trim():'';
+    document.getElementById('updAt').textContent=at;
+    document.getElementById('updBy').textContent=by;
+    document.getElementById('updTxt').textContent=np.textContent.trim();
+    const card=document.getElementById('updCard');
+    card.setAttribute('aria-label','최근 업데이트 '+at+' '+by+' — '+np.textContent.trim()+' · 변경이력으로 이동');
+    card.addEventListener('click',e=>{ e.preventDefault(); setHash('c1'); goTo('c1'); });
+    box.classList.add('on');
+  })();
 
   if(!fromHash()) showPage('pA',false);
 })();
