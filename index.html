@@ -211,7 +211,7 @@ tbody tr.tot td{background:var(--surface-2); font-weight:700; color:var(--ink-90
       <span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M3 10h18M8 4.5V2.5M16 4.5V2.5M8 14.5h4"/></svg></span>
       <span class="bt">
         <span class="bn">운영현황판<br>주간회의</span>
-        <span class="bs">매뉴얼<i class="ver">v1.1</i></span>
+        <span class="bs">매뉴얼<i class="ver">v1.2</i></span>
       </span>
     </div>
 
@@ -229,6 +229,14 @@ tbody tr.tot td{background:var(--surface-2); font-weight:700; color:var(--ink-90
         <div class="navlist" id="nl-pB">
           <a class="nav" href="#b1" data-go="b1"><em>01</em>값의 정의</a>
           <a class="nav" href="#b2" data-go="b2"><em>02</em>설명 영역 기재 항목</a>
+        </div>
+      </div>
+      <div class="navgrp" data-page="pE">
+        <button type="button" class="gh" aria-expanded="false" aria-controls="nl-pE"><span class="bar"></span><span class="gt">장애대응 SOP</span><span class="gc">3</span></button>
+        <div class="navlist" id="nl-pE">
+          <a class="nav" href="#e1" data-go="e1"><em>01</em>대응 프로세스</a>
+          <a class="nav" href="#e2" data-go="e2"><em>02</em>공지 프로세스</a>
+          <a class="nav" href="#e3" data-go="e3"><em>03</em>주요 장애 대응 항목</a>
         </div>
       </div>
       <div class="navgrp" data-page="pD">
@@ -530,6 +538,211 @@ tbody tr.tot td{background:var(--surface-2); font-weight:700; color:var(--ink-90
       </section>
     </div>
 
+    <!-- ========== PAGE E ========== -->
+    <div class="page" id="pE" hidden>
+
+      <div class="hero">
+        <div class="t-label">DX혁신팀 · 운영현황판</div>
+        <h1 class="t-display" style="margin-top:11px">장애대응 SOP</h1>
+      </div>
+
+      <section id="e1">
+        <div class="sechead">
+          <span class="num">01</span>
+          <h2 class="t-sec">대응 프로세스</h2>
+        </div>
+        <p class="note">장애 감지부터 보고까지 순서대로 진행한다. <b>담당자</b>는 수행 주체 팀, <b>공지내용</b>은 공지 시 필수 기재 항목.</p>
+
+        <ol class="tl">
+          <li class="tl-i">
+            <span class="tl-node">1</span>
+            <div class="tl-card">
+              <div class="tl-head">
+                <h3 class="tl-t">모니터링</h3><span class="tl-tags"><span class="vchip s">ZABBIX</span></span>
+              </div>
+              <div class="tl-body">
+                <span class="np">ZABBIX 상시 모니터링</span>
+                <span class="mm">※ 시스템 접속 장애는 ZABBIX 오류 메시지 기준 탐지</span>
+              </div>
+            </div>
+          </li>
+          <li class="tl-i">
+            <span class="tl-node">2</span>
+            <div class="tl-card">
+              <div class="tl-head">
+                <h3 class="tl-t">장애발생</h3>
+              </div>
+              <div class="tl-body">
+                <span class="np">장애 발생 — 모니터링 감지 또는 운영 중 확인</span>
+              </div>
+            </div>
+          </li>
+          <li class="tl-i">
+            <span class="tl-node">3</span>
+            <div class="tl-card">
+              <div class="tl-head">
+                <h3 class="tl-t">담당자 SMS 수신</h3>
+              </div>
+              <div class="tl-body">
+                <span class="np">수신 담당자 범위</span>
+                <span class="tl-sub">시스템 · U+유모바일 운영(개발) · U+유모바일 운영(기획)</span>
+              </div>
+            </div>
+          </li>
+          <li class="tl-i">
+            <span class="tl-node">4</span>
+            <div class="tl-card">
+              <div class="tl-head">
+                <h3 class="tl-t">원인확인</h3>
+              </div>
+              <div class="tl-body">
+                <span class="np">담당자 — 시스템 · U+유모바일 운영(개발)</span>
+                <span class="mm">※ 해당 담당자 외 필요할 경우 유관담당자 지원 필요</span>
+              </div>
+            </div>
+          </li>
+          <li class="tl-i">
+            <span class="tl-node">5</span>
+            <div class="tl-card">
+              <div class="tl-head">
+                <h3 class="tl-t">장애공지 1차</h3><span class="tl-tags"><span class="vchip r s">공지</span></span>
+              </div>
+              <div class="tl-body">
+                <span class="np">공지내용</span>
+                <span class="tl-sub">장애발생시점 · 장애범위 · 발생원인 · 조치방안 · 조치예상 소요시간</span>
+                <span class="mm">※ 1차 공지는 신속히 진행 — 위 항목 중 바로 확인된 내용 우선 공지</span>
+              </div>
+            </div>
+          </li>
+          <li class="tl-i">
+            <span class="tl-node">6</span>
+            <div class="tl-card">
+              <div class="tl-head">
+                <h3 class="tl-t">조치</h3>
+              </div>
+              <div class="tl-body">
+                <span class="np">담당자 — 시스템 · U+유모바일 운영(개발)</span>
+              </div>
+            </div>
+          </li>
+          <li class="tl-i">
+            <span class="tl-node">7</span>
+            <div class="tl-card">
+              <div class="tl-head">
+                <h3 class="tl-t">장애공지 2차</h3><span class="tl-tags"><span class="vchip r s">공지</span></span>
+              </div>
+              <div class="tl-body">
+                <span class="np">공지내용</span>
+                <span class="tl-sub">장애발생시점 · 장애범위 · 발생원인 · 조치방안 · 조치예상 소요시간</span>
+                <span class="mm">※ 2차 공지는 조치 중간 과정 공유 — 확인되는 범위 내의 내용을 정확히 공지</span>
+              </div>
+            </div>
+          </li>
+          <li class="tl-i">
+            <span class="tl-node">8</span>
+            <div class="tl-card">
+              <div class="tl-head">
+                <h3 class="tl-t">조치</h3>
+              </div>
+              <div class="tl-body">
+                <span class="np">담당자 — 시스템 · U+유모바일 운영(개발)</span>
+                <span class="mm">※ 해당 담당자 외 필요할 경우 유관담당자 지원 필요</span>
+              </div>
+            </div>
+          </li>
+          <li class="tl-i">
+            <span class="tl-node">9</span>
+            <div class="tl-card">
+              <div class="tl-head">
+                <h3 class="tl-t">완료</h3><span class="tl-tags"><span class="vchip y s">종료</span></span>
+              </div>
+              <div class="tl-body">
+                <span class="np">장애 조치 완료</span>
+              </div>
+            </div>
+          </li>
+          <li class="tl-i">
+            <span class="tl-node">10</span>
+            <div class="tl-card">
+              <div class="tl-head">
+                <h3 class="tl-t">보고내용</h3>
+              </div>
+              <div class="tl-body">
+                <span class="np">보고 항목</span>
+                <span class="tl-sub">장애발생시점 · 장애범위 · 발생원인 · 조치방안 · 조치예상 소요시간</span>
+              </div>
+            </div>
+          </li>
+        </ol>
+
+        <div class="tl-end"><span class="dot"><i></i></span><span class="lb">보고 완료 — 장애 대응 종료</span></div>
+      </section>
+
+      <section id="e2">
+        <div class="sechead">
+          <span class="num">02</span>
+          <h2 class="t-sec">공지 프로세스</h2>
+        </div>
+        <p class="note">장애 확인 내용의 전파 경로. 단계별 수행 주체 기준.</p>
+
+        <div class="tw">
+          <table>
+            <thead><tr><th style="width:64px">순서</th><th style="width:196px">단계</th><th>수행 주체</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="qt">1</td>
+                <td class="it">장애확인</td>
+                <td><span class="np">시스템 · U+유모바일 운영(개발)</span></td>
+              </tr>
+              <tr>
+                <td class="qt">2</td>
+                <td class="it">운영담당자 공유</td>
+                <td><span class="np">U+유모바일 운영(기획)</span></td>
+              </tr>
+              <tr>
+                <td class="qt">3</td>
+                <td class="it">MVNO사업 공유</td>
+                <td><span class="np">지정된 담당팀</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">※ 장애현황은 시스템관리자가 포함된 단톡방에서 공유되며, 유관 부서에 2차 배포된다.</p>
+      </section>
+
+      <section id="e3">
+        <div class="sechead">
+          <span class="num">03</span>
+          <h2 class="t-sec">주요 장애 대응 항목</h2>
+        </div>
+
+        <div class="tw">
+          <table>
+            <thead><tr><th style="width:240px">대응 항목</th><th>대응 기준</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="it">시스템 접속 장애</td>
+                <td><span class="np">ZABBIX 오류 메시지로 모니터링 후 「01 대응 프로세스」로 대응</span></td>
+              </tr>
+              <tr>
+                <td class="it">가입신청서 작성 오류</td>
+                <td><span class="np">「01 대응 프로세스」로 대응</span></td>
+              </tr>
+              <tr>
+                <td class="it">개통처리 진행 오류</td>
+                <td><span class="np">「01 대응 프로세스」로 대응</span></td>
+              </tr>
+              <tr>
+                <td class="it">요금제 · 단말 금액정보 오류</td>
+                <td><span class="np">공시지원금 변동 단말 알림 확인 후 해당 단말 정보 확인</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">출처 — 「U+유모바일 비상연락망_2026 추석연휴」 3p 장애대응 프로세스. ※ 비상연락망(담당자 연락처)은 본 문서 미수록 — 원본 문서 참조</p>
+      </section>
+    </div>
+
     <!-- ========== PAGE D ========== -->
     <div class="page" id="pD" hidden>
 
@@ -631,6 +844,17 @@ tbody tr.tot td{background:var(--surface-2); font-weight:700; color:var(--ink-90
           <table id="chtable">
             <thead><tr><th style="width:74px">버전</th><th style="width:104px">적용일</th><th style="width:76px">구분</th><th>변경 내용</th></tr></thead>
             <tbody>
+              <tr>
+                <td class="vr">v1.2</td>
+                <td class="dt">2026-09-01</td>
+                <td><span class="vchip n s">개정</span></td>
+                <td>
+                  <span class="np">장애대응 SOP 수록</span>
+                  <span class="mm">※ 신설 — 「장애대응 SOP」 페이지 · 대응 프로세스 10단계 · 공지 프로세스 · 주요 장애 대응 항목</span>
+                  <span class="mm">※ 출처 — 「U+유모바일 비상연락망_2026 추석연휴」 3p</span>
+                  <span class="mm">※ 미수록 — 비상연락망 담당자 연락처 (개인정보, 원본 문서 참조)</span>
+                </td>
+              </tr>
               <tr>
                 <td class="vr">v1.1</td>
                 <td class="dt">2026-09-01</td>
