@@ -3,11 +3,11 @@ chcp 65001 >nul 2>&1
 setlocal enabledelayedexpansion
 cd /d "%~dp0"
 
-set "REPO=https://github.com/jiwonida-dotcom/202608_Manual.git"
+set "REPO=https://github.com/jiwonida-dotcom/Manual_All.git"
 set "BRANCH=main"
 
 echo ============================================
-echo  202608_Manual  push
+echo  Manual_All  push
 echo ============================================
 echo.
 
@@ -69,10 +69,10 @@ if errorlevel 1 goto :fail
 
 echo.
 echo ---- DONE ----
-echo repo  : https://github.com/jiwonida-dotcom/202608_Manual
-echo pages : https://jiwonida-dotcom.github.io/202608_Manual/
+echo repo  : https://github.com/jiwonida-dotcom/Manual_All
+echo pages : https://jiwonida-dotcom.github.io/Manual_All/
 echo.
-echo * GitHub Pages : Settings ^> Pages ^> Source = main / (root)
+echo * GitHub Pages : Settings ^> Pages ^> Source = main / docs
 echo * index.html is served from both root and /docs
 echo.
 pause
