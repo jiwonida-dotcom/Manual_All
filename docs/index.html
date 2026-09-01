@@ -177,6 +177,11 @@ td.v{white-space:nowrap}
 tr.noresult td{text-align:center; color:var(--ink-400); font-size:13px; padding:26px 16px}
 td.vr{font-weight:700; color:var(--ink-900); letter-spacing:-.01em; font-variant-numeric:tabular-nums; white-space:nowrap}
 td.dt{color:var(--ink-700); font-variant-numeric:tabular-nums; white-space:nowrap}
+th.qt{text-align:right}
+td.qt{text-align:right; white-space:nowrap; font-weight:600; color:var(--ink-900); font-variant-numeric:tabular-nums; vertical-align:middle}
+td.qt.z{color:var(--ink-300); font-weight:500}
+td.qt.sum{background:var(--surface-2)}
+tbody tr.tot td{background:var(--surface-2); font-weight:700; color:var(--ink-900); border-top:1px solid var(--rule-2)}
 
 @media (max-width:900px){
   .shell{grid-template-columns:1fr; padding:14px 14px 60px; gap:14px}
@@ -206,7 +211,7 @@ td.dt{color:var(--ink-700); font-variant-numeric:tabular-nums; white-space:nowra
       <span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M3 10h18M8 4.5V2.5M16 4.5V2.5M8 14.5h4"/></svg></span>
       <span class="bt">
         <span class="bn">운영현황판<br>주간회의</span>
-        <span class="bs">매뉴얼<i class="ver">v1.0</i></span>
+        <span class="bs">매뉴얼<i class="ver">v1.1</i></span>
       </span>
     </div>
 
@@ -224,6 +229,12 @@ td.dt{color:var(--ink-700); font-variant-numeric:tabular-nums; white-space:nowra
         <div class="navlist" id="nl-pB">
           <a class="nav" href="#b1" data-go="b1"><em>01</em>값의 정의</a>
           <a class="nav" href="#b2" data-go="b2"><em>02</em>설명 영역 기재 항목</a>
+        </div>
+      </div>
+      <div class="navgrp" data-page="pD">
+        <button type="button" class="gh" aria-expanded="false" aria-controls="nl-pD"><span class="bar"></span><span class="gt">운영 프로젝트</span><span class="gc">1</span></button>
+        <div class="navlist" id="nl-pD">
+          <a class="nav" href="#d1" data-go="d1"><em>01</em>인력구성 (M/M)</a>
         </div>
       </div>
       <div class="navgrp" data-page="pC">
@@ -519,6 +530,83 @@ td.dt{color:var(--ink-700); font-variant-numeric:tabular-nums; white-space:nowra
       </section>
     </div>
 
+    <!-- ========== PAGE D ========== -->
+    <div class="page" id="pD" hidden>
+
+      <div class="hero">
+        <div class="t-label">DX혁신팀 · 운영현황판</div>
+        <h1 class="t-display" style="margin-top:11px">운영 프로젝트</h1>
+      </div>
+
+      <section id="d1">
+        <div class="sechead">
+          <span class="num">01</span>
+          <h2 class="t-sec">인력구성 (M/M)</h2>
+        </div>
+        <p class="note">운영 프로젝트 투입 인력 — 자사 인력 · 협력사 인력 구분 기재. 단위 <b>M/M</b>.</p>
+
+        <div class="tw">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:168px">구분</th>
+                <th class="qt">기획</th>
+                <th class="qt">디자인</th>
+                <th class="qt">퍼블리싱</th>
+                <th class="qt">개발</th>
+                <th class="qt">개발(앱)</th>
+                <th class="qt">DBA</th>
+                <th class="qt">합계</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="col">자사 인력</td>
+                <td class="qt">5</td>
+                <td class="qt">1</td>
+                <td class="qt">1</td>
+                <td class="qt">3</td>
+                <td class="qt z">–</td>
+                <td class="qt">1</td>
+                <td class="qt sum">11</td>
+              </tr>
+              <tr>
+                <td class="col">협력<small>프레임아웃</small></td>
+                <td class="qt">4</td>
+                <td class="qt">2</td>
+                <td class="qt">1</td>
+                <td class="qt z">–</td>
+                <td class="qt z">–</td>
+                <td class="qt z">–</td>
+                <td class="qt sum">7</td>
+              </tr>
+              <tr>
+                <td class="col">협력<small>케이스마텍</small></td>
+                <td class="qt z">–</td>
+                <td class="qt z">–</td>
+                <td class="qt z">–</td>
+                <td class="qt">6</td>
+                <td class="qt">0.8</td>
+                <td class="qt z">–</td>
+                <td class="qt sum">6.8</td>
+              </tr>
+              <tr class="tot">
+                <td class="col">합계</td>
+                <td class="qt">9</td>
+                <td class="qt">3</td>
+                <td class="qt">2</td>
+                <td class="qt">9</td>
+                <td class="qt">0.8</td>
+                <td class="qt">1</td>
+                <td class="qt sum">24.8</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">총 <b>24.8 M/M</b> — 자사 11 · 협력 13.8. ※ 값 변동 시 변경이력 기재</p>
+      </section>
+    </div>
+
     <!-- ========== PAGE C ========== -->
     <div class="page" id="pC" hidden>
 
@@ -543,6 +631,16 @@ td.dt{color:var(--ink-700); font-variant-numeric:tabular-nums; white-space:nowra
           <table id="chtable">
             <thead><tr><th style="width:74px">버전</th><th style="width:104px">적용일</th><th style="width:76px">구분</th><th>변경 내용</th></tr></thead>
             <tbody>
+              <tr>
+                <td class="vr">v1.1</td>
+                <td class="dt">2026-09-01</td>
+                <td><span class="vchip n s">개정</span></td>
+                <td>
+                  <span class="np">운영 프로젝트 인력구성 (M/M) 신설</span>
+                  <span class="mm">※ 신설 — 「운영 프로젝트」 페이지 · 「01 인력구성 (M/M)」 섹션</span>
+                  <span class="mm">※ 기재 기준 — 직무별 투입 M/M, 자사 인력 · 협력사(프레임아웃 · 케이스마텍) 구분</span>
+                </td>
+              </tr>
               <tr>
                 <td class="vr">v1.0</td>
                 <td class="dt">2026-08-28</td>
