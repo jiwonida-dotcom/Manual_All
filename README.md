@@ -23,6 +23,41 @@ GitHub Pages · Source = `main` branch / `/ (root)`
 클릭 시 「문서 관리 > 변경이력」으로 이동. 작성일시·작성자는 변경이력 `<tr>` 의 `data-at` · `data-by` 속성 값.
 ※ 별도 관리 불필요 — 변경이력 행만 추가하면 배지도 자동 갱신.
 
+## 변경이력 데이터 (Airtable)
+
+변경이력은 Airtable 베이스 `Manual_All`(`appIDWrezBNzJXqhv`) > 「변경이력」 테이블이 원본.
+HTML 표는 빌드타임 생성물 — **`index.html` 의 변경이력 행은 직접 수정하지 않는다.**
+
+| 경로 | 역할 |
+|---|---|
+| `tools/changelog_fetch.py` | Airtable → `data/changelog.json` (PAT 필요) |
+| `data/changelog.json` | 중간 산출물 · 저장소 커밋 대상 |
+| `tools/changelog_render.py` | `data/changelog.json` → `index.html` 표 재생성 · `docs/` 사본 복사 (토큰 불필요) |
+
+**갱신 절차**
+
+```
+set AIRTABLE_PAT=pat...        (최초 1회 · CMD 기준)
+python tools/changelog_fetch.py
+python tools/changelog_render.py
+push.cmd "docs: 변경이력 v1.3"
+```
+
+`index.html` 의 `<!-- CHANGELOG:START -->` ~ `<!-- CHANGELOG:END -->` 구간만 교체된다.
+※ 「최근 업데이트」 배지는 생성된 첫 행을 그대로 읽으므로 별도 작업 불필요.
+
+**테이블 필드**
+
+| 필드 | 용도 |
+|---|---|
+| 버전 · 적용일 · 구분 · 변경내용 | 표 4개 컬럼 |
+| 작성일시 · 작성자 | `data-at` · `data-by` 속성 — 배지 표시 · 정렬 기준 |
+| 단서 | 한 줄에 하나씩 · 렌더링 시 `※` 자동 부착 |
+| 게시 | 체크된 행만 문서 반영 |
+
+**PAT 발급** — Airtable > Builder hub > Personal access tokens · 스코프 `data.records:read` · 대상 base 지정.
+토큰은 환경변수로만 전달 — 저장소·HTML 에 기록 금지 (GitHub Pages 는 공개 배포).
+
 ## 문서 구성
 
 **주간회의 매뉴얼**
